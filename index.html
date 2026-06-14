@@ -1,363 +1,692 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bike Roar Rater - TFJS On-Device</title>
-    
-    <!-- Load TensorFlow.js -->
-    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.3.1/dist/tf.min.js"></script>
-    <!-- Load Teachable Machine Audio Extension (Handles complex FFT/Spectrogram math automatically) -->
-    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/speech-commands@0.4.0/dist/speech-commands.min.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>Katta Panchayat | கட்டா பஞ்சாயத்து – Debate, Roast, Resolve</title>
+  <!-- Google Fonts & Font Awesome -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&family=Baloo+2:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-    <style>
-        :root {
-            --primary: #ff4500;
-            --secondary: #222;
-            --bg: #0a0a0a;
-            --text: #ffffff;
-            --accent: #00ff7f;
-        }
+    body {
+      background: #fef7e8;
+      font-family: 'Inter', sans-serif;
+      color: #2c2418;
+      scroll-behavior: smooth;
+    }
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg);
-            color: var(--text);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            margin: 0;
-            text-align: center;
-        }
+    /* earthy tamizh vibe */
+    .container {
+      max-width: 1300px;
+      margin: 0 auto;
+      padding: 1.5rem 2rem;
+    }
 
-        .container {
-            background-color: var(--secondary);
-            padding: 2.5rem;
-            border-radius: 20px;
-            box-shadow: 0 15px 40px rgba(255, 69, 0, 0.15);
-            width: 90%;
-            max-width: 450px;
-            position: relative;
-            overflow: hidden;
-        }
+    /* header */
+    .header {
+      text-align: center;
+      margin-bottom: 2.5rem;
+      border-bottom: 3px solid #e0b354;
+      padding-bottom: 1rem;
+    }
+    .logo {
+      font-family: 'Baloo 2', cursive;
+      font-size: 3rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #b85c1a, #e09d32);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      letter-spacing: -0.5px;
+    }
+    .tagline {
+      font-size: 1.1rem;
+      background: #f3e1be;
+      display: inline-block;
+      padding: 0.3rem 1.2rem;
+      border-radius: 40px;
+      font-weight: 500;
+      margin-top: 0.5rem;
+      color: #784e2e;
+    }
+    .tagline i {
+      margin-right: 6px;
+    }
 
-        /* Top highlight bar */
-        .container::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0;
-            height: 5px;
-            background: linear-gradient(90deg, var(--primary), var(--accent));
-        }
+    /* featured katta */
+    .featured-card {
+      background: #ffffffdd;
+      backdrop-filter: blur(2px);
+      border-radius: 2rem;
+      box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.1);
+      padding: 1.8rem;
+      margin-bottom: 2.5rem;
+      border: 1px solid #ffde9c;
+      transition: transform 0.2s ease;
+    }
+    .roast-badge {
+      background: #2c2418;
+      color: #ffcd7e;
+      font-size: 0.75rem;
+      width: fit-content;
+      padding: 0.3rem 1rem;
+      border-radius: 30px;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+    .roast-badge i {
+      margin-right: 6px;
+    }
+    h2 {
+      font-family: 'Baloo 2', cursive;
+      font-size: 1.8rem;
+      font-weight: 700;
+    }
+    .debate-title {
+      font-size: 1.6rem;
+      font-weight: 800;
+      margin: 0.5rem 0 0.25rem;
+    }
+    .humor-text {
+      background: #fff1e0;
+      padding: 0.8rem 1.2rem;
+      border-radius: 20px;
+      border-left: 6px solid #e09d32;
+      font-style: italic;
+      margin: 1rem 0;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
 
-        h1 { margin-top: 0; color: var(--primary); text-transform: uppercase; letter-spacing: 2px; }
-        p { color: #aaaaaa; font-size: 0.95rem; margin-bottom: 25px; }
+    /* poll styling */
+    .poll-options {
+      margin: 1.2rem 0 1rem;
+    }
+    .poll-option {
+      background: #fef2e4;
+      margin: 0.6rem 0;
+      padding: 0.5rem 1rem;
+      border-radius: 60px;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: all 0.2s;
+      border: 1px solid #ffddb0;
+    }
+    .poll-option:hover {
+      background: #ffebd2;
+      transform: scale(0.99);
+    }
+    .vote-bar {
+      background: #e9cfaa;
+      border-radius: 30px;
+      height: 8px;
+      width: 100%;
+      margin-top: 5px;
+      overflow: hidden;
+    }
+    .vote-fill {
+      background: #c47d2e;
+      width: 0%;
+      height: 8px;
+      border-radius: 30px;
+    }
+    .vote-percent {
+      font-size: 0.8rem;
+      font-weight: 600;
+      min-width: 45px;
+      text-align: right;
+    }
 
-        #record-btn {
-            background: linear-gradient(145deg, #ff5722, #e63e00);
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 90px; height: 90px;
-            font-size: 32px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 8px 20px rgba(255, 69, 0, 0.4);
-            margin: 10px auto 25px auto;
-            display: flex; align-items: center; justify-content: center;
-        }
-
-        #record-btn:active { transform: scale(0.9); }
-        
-        #record-btn.recording {
-            background: #dc143c;
-            animation: pulse-ring 1.5s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
-        }
-
-        @keyframes pulse-ring {
-            0% { box-shadow: 0 0 0 0 rgba(220, 20, 60, 0.7); }
-            70% { box-shadow: 0 0 0 25px rgba(220, 20, 60, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(220, 20, 60, 0); }
-        }
-
-        /* Progress Bar for the 5s capture */
-        .progress-container { width: 100%; height: 6px; background: #333; border-radius: 3px; margin-bottom: 15px; display: none; overflow: hidden; }
-        .progress-bar { height: 100%; width: 0%; background: var(--primary); transition: width 0.1s linear; }
-
-        .results { display: none; animation: slideUp 0.5s ease-out forwards; border-top: 1px solid #333; padding-top: 20px; }
-        
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .score-box { background: rgba(0,0,0,0.4); padding: 15px; border-radius: 12px; margin-bottom: 15px; }
-        .score-display { font-size: 4rem; font-weight: 900; color: var(--accent); margin: 0; line-height: 1; text-shadow: 0 0 15px rgba(0,255,127,0.3); }
-        .bonus-text { font-size: 0.8rem; color: #ffeb3b; margin-top: 5px; }
-
-        .bike-badge {
-            display: inline-block; padding: 6px 12px; border-radius: 6px;
-            background: #333; font-weight: bold; font-size: 1.1rem; margin: 10px 0;
-            border-left: 4px solid var(--primary);
-        }
-
-        .trash-talk {
-            font-size: 1.1rem; font-style: italic; background: rgba(255,255,255,0.05);
-            padding: 15px; border-radius: 8px; margin-top: 10px; border: 1px solid #444;
-        }
-
-        #status { color: #888; font-size: 0.9rem; font-weight: 500; height: 20px; }
-    </style>
+    /* two column layout */
+    .two-columns {
+      display: grid;
+      grid-template-columns: 1fr 1.1fr;
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
+    @media (max-width: 850px) {
+      .two-columns {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+      .container {
+        padding: 1rem;
+      }
+    }
+    .panel {
+      background: white;
+      border-radius: 1.8rem;
+      padding: 1.5rem;
+      box-shadow: 0 12px 25px rgba(0, 0, 0, 0.05);
+      border: 1px solid #ffeba5;
+    }
+    .panel h3 {
+      font-family: 'Baloo 2', cursive;
+      font-size: 1.6rem;
+      border-left: 5px solid #e09d32;
+      padding-left: 0.8rem;
+      margin-bottom: 1.2rem;
+    }
+    .kural-feed {
+      max-height: 420px;
+      overflow-y: auto;
+      margin-bottom: 1rem;
+    }
+    .voice-card {
+      background: #faf4e8;
+      border-radius: 1rem;
+      padding: 0.8rem;
+      margin-bottom: 0.8rem;
+      transition: all 0.2s;
+    }
+    .voice-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+    .voice-name {
+      font-weight: 700;
+      color: #b85c1a;
+    }
+    .voice-time {
+      font-size: 0.7rem;
+      color: #8b6946;
+    }
+    .voice-play {
+      background: #2c2418;
+      color: #ffcd7e;
+      border: none;
+      padding: 6px 14px;
+      border-radius: 30px;
+      font-size: 0.75rem;
+      margin: 8px 0 5px;
+      cursor: pointer;
+      transition: 0.1s;
+    }
+    .voice-actions {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      margin-top: 6px;
+    }
+    .upvote-btn {
+      background: none;
+      border: none;
+      color: #b85c1a;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    .record-area {
+      margin-top: 1.2rem;
+      border-top: 2px dashed #ffd89a;
+      padding-top: 1.2rem;
+    }
+    .nick-input {
+      width: 100%;
+      padding: 10px;
+      border-radius: 60px;
+      border: 1px solid #e2cba4;
+      margin-bottom: 12px;
+      background: #fffbf5;
+    }
+    .btn-group {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .btn {
+      background: #e09d32;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 40px;
+      font-weight: 600;
+      color: #2c2418;
+      cursor: pointer;
+      transition: 0.1s;
+    }
+    .btn-outline {
+      background: transparent;
+      border: 2px solid #e09d32;
+    }
+    .btn-danger {
+      background: #b85c1a;
+      color: white;
+    }
+    .microphone-icon {
+      margin-right: 5px;
+    }
+    footer {
+      text-align: center;
+      margin-top: 2rem;
+      padding: 1.5rem;
+      border-top: 1px solid #ffdeaa;
+      color: #a47e52;
+      font-size: 0.8rem;
+    }
+    .warning-note {
+      font-size: 0.7rem;
+      color: #b6783a;
+      margin-top: 8px;
+    }
+    i {
+      margin-right: 4px;
+    }
+    .roast-day {
+      background: #ffeee2;
+      padding: 8px 15px;
+      border-radius: 60px;
+      display: inline-block;
+      margin-bottom: 10px;
+      font-weight: 600;
+    }
+  </style>
 </head>
 <body>
+<div class="container">
+  <div class="header">
+    <div class="logo">🗣️ Katta Panchayat</div>
+    <div class="tagline"><i class="fas fa-microphone-alt"></i> Kural Kodu | Poll Podu | Roast Pannu</div>
+    <div style="margin-top: 8px; font-size: 0.85rem;">📍 Chennai – Madurai – Coimbatore | Where young Tamils debate real issues with swag</div>
+  </div>
 
-    <div class="container">
-        <h1>Roar Rater</h1>
-        <p>100% On-Device AI Architecture</p>
-        
-        <button id="record-btn">🎤</button>
-        
-        <div class="progress-container" id="progress-container">
-            <div class="progress-bar" id="progress-bar"></div>
-        </div>
-        
-        <div id="status">Tap mic to load AI and record</div>
+  <!-- FEATURED DEBATE WITH POLL + HUMOR -->
+  <div class="featured-card">
+    <div class="roast-badge"><i class="fas fa-fire"></i> PERIYA KATTA 🔥 THIS WEEK</div>
+    <div class="debate-title">📢 "Freebies ah? Or Necessary Social Security?"</div>
+    <div class="humor-text">
+      <i class="fas fa-laugh-squint" style="font-size: 1.4rem;"></i> 
+      <span><strong>Roast Logic:</strong> "Mixie, fan, and free rice — aiyo, but is our economy crying in the corner? Let’s settle this with facts & funny bones."</span>
+    </div>
+    
+    <!-- Featured Poll Widget -->
+    <div id="featuredPollWidget">
+      <p><strong><i class="fas fa-chart-simple"></i> Ooru Verdict :</strong> What's your take?</p>
+      <div id="featuredPollOptions"></div>
+      <div id="featuredPollResults" class="poll-options" style="margin-top: 10px;"></div>
+    </div>
+    <div class="warning-note"><i class="fas fa-hand-peace"></i> Vote cheyyunga, maru pakkam voice note podunga!</div>
+  </div>
 
-        <div class="results" id="results-card">
-            <div class="score-box">
-                <div style="font-size: 0.9rem; color:#aaa; text-transform:uppercase; letter-spacing:1px;">Final Roar Score</div>
-                <div class="score-display" id="roar-score">0</div>
-                <div class="bonus-text" id="bonus-text">+0 Character Bonus</div>
-            </div>
-            
-            <div><span class="bike-badge" id="bike-class">Analyzing...</span></div>
-            <div class="trash-talk" id="trash-talk-text"></div>
-        </div>
+  <!-- TWO COLUMNS: OTHER POLLS + VOICE NOTE FEED -->
+  <div class="two-columns">
+    <!-- LEFT: Other Hot Panchayats (Polls) -->
+    <div class="panel">
+      <h3><i class="fas fa-vote-yea"></i> Other Katta Issues</h3>
+      <div id="otherPollsContainer"></div>
+      <!-- Small humor element -->
+      <div class="roast-day" style="margin-top: 16px;"><i class="fas fa-brain"></i> Nakkal Nugget : "Parents say 'study well' but also 'why no salary hike?' — logic evide?"</div>
     </div>
 
-    <script>
-        // --- 1. CONFIGURATION ---
-        // REPLACE this URL with your own Teachable Machine Audio model link once you train it!
-        // Example: "https://teachablemachine.withgoogle.com/models/YOUR_MODEL_ID/"
-        const URL = "https://teachablemachine.withgoogle.com/models/placeholder/"; 
-        
-        const RECORD_DURATION_MS = 5000; // 5 seconds
-        
-        // Trash Talk Engine (Tamil-English)
-        const trashTalkTemplates = {
-            low: [
-                "Enna ba, mixer grinder sound kekuthu! 😂",
-                "TVS 50 ah idhu? Needs more throat! 🛵",
-                "Sathame illa... Cycle otlama ba? 🚲"
-            ],
-            medium: [
-                "Not bad, aana innum konjam raw power thevai! 🏍️",
-                "Decent ah irukku, but where is the bass man? 🤔",
-                "KTM Duke vibes, pulling out okay! 🔥"
-            ],
-            high: [
-                "Verithanam! Pure muscle! 💥",
-                "Therikkavidalama! That's a beast roaring! 🦁",
-                "Kaantha kural! Royal Enfield thozha! 👑"
-            ]
-        };
+    <!-- RIGHT: Voice Note Feed & Recorder (Kural Kottu) -->
+    <div class="panel">
+      <h3><i class="fas fa-voice"></i> Kural Kottu — Voice Panchayat</h3>
+      <div id="voiceFeedContainer" class="kural-feed">
+        <!-- dynamic voice notes appear here -->
+      </div>
+      <div class="record-area">
+        <input type="text" id="voiceNickname" class="nick-input" placeholder="Unga peru (e.g., Muthu, Madurai)" value="Anbu_Chepauk">
+        <div class="btn-group">
+          <button id="startRecordBtn" class="btn"><i class="fas fa-microphone"></i> Start Recording</button>
+          <button id="stopRecordBtn" class="btn btn-outline" disabled><i class="fas fa-stop"></i> Stop</button>
+          <button id="postVoiceBtn" class="btn btn-danger" disabled><i class="fas fa-paper-plane"></i> Post Voice Note</button>
+        </div>
+        <div id="recordingStatus" style="font-size: 0.75rem; margin: 8px 0; color:#b56a2e;"><i class="fas fa-info-circle"></i> Record your hot take (max 60 sec)</div>
+        <audio id="recordedAudioPreview" controls style="width: 100%; margin-top: 8px; display: none;"></audio>
+      </div>
+      <div class="warning-note"><i class="fas fa-bolt"></i> Voice notes win debates! Mic permission needed. Sample voices use TTS for demo.</div>
+    </div>
+  </div>
+  <footer>
+    <i class="fas fa-tree"></i> Katta Panchayat — where tea kadai meets democracy | #KuralKodu <i class="fas fa-pepper-hot"></i>
+  </footer>
+</div>
 
-        // UI Elements
-        const recordBtn = document.getElementById('record-btn');
-        const statusText = document.getElementById('status');
-        const resultsCard = document.getElementById('results-card');
-        const roarScoreEl = document.getElementById('roar-score');
-        const bikeClassEl = document.getElementById('bike-class');
-        const trashTalkEl = document.getElementById('trash-talk-text');
-        const bonusTextEl = document.getElementById('bonus-text');
-        const progressContainer = document.getElementById('progress-container');
-        const progressBar = document.getElementById('progress-bar');
+<script>
+  // --------------------- DATA MODELS -------------------------
+  // Featured Poll (Freebies)
+  let featuredPoll = {
+    question: "Do freebies harm economic growth or empower people?",
+    options: ["Yes, it's a drain", "No, social security is vital", "Depends on implementation"],
+    votes: [12, 25, 18]  // initial dummy votes
+  };
 
-        // State Variables
-        let isRecording = false;
-        let recognizer;
-        let audioContext;
-        let analyser;
-        let microphone;
-        let maxVolume = 0;
-        let detectedClass = "Unknown";
-        let maxConfidence = 0;
-        let progressInterval;
+  // Other Polls (two sample)
+  let otherPolls = [
+    { id: 0, title: "👨‍👩‍👧‍👦 Career Interference", question: "Parents should interfere in career choices?", 
+      options: ["They know best", "Let me live my life", "Depends on context"], votes: [30, 44, 22] },
+    { id: 1, title: "🚕 Auto Meter Melodrama", question: "Real solution for auto meter refusals?",
+      options: ["Fix meters with GPS", "Ban autos, bring ev buses", "Negotiate like a boss"], votes: [58, 12, 30] }
+  ];
 
-        // --- 2. TFJS MODEL LOADING ---
-        async function createModel() {
-            const checkpointURL = URL + "model.json"; // model topology
-            const metadataURL = URL + "metadata.json"; // model metadata
+  // Voice Feed Data: each entry includes id, nickname, audioUrl (for user-recorded) OR isMockTTS flag (text for speech)
+  // For simplicity, we store array of objects: { id, nickname, timestamp, audioBlobUrl (optional), isMock, mockText, upvotes }
+  let voiceNotes = [];
+  let nextVoiceId = 3;
 
-            try {
-                const recognizer = speechCommands.create(
-                    "BROWSER_FFT", // Fourier transform type
-                    undefined,     // speech commands vocabulary feature
-                    checkpointURL,
-                    metadataURL
-                );
-                // check that model and metadata are loaded
-                await recognizer.ensureModelLoaded();
-                return recognizer;
-            } catch (e) {
-                console.warn("Real TFJS model not found. Falling back to Mock Engine for UI testing.");
-                return null; // Return null to trigger the graceful fallback demo
-            }
-        }
+  // Preload two demo voice notes (using TTS on play, not actual audio files)
+  const demoNotes = [
+    { id: 0, nickname: "Sowmya - Madurai", timestamp: "2h ago", mockText: "Naama freebies vaangitu irukom, aana adhu namma vaazhkai ku oru safety net maari. But waste panna koodadhu, illaya?", upvotes: 12, isMock: true },
+    { id: 1, nickname: "Dinesh - Tambaram", timestamp: "5h ago", mockText: "Auto drivers deserve minimum fare, but meter podradhu la honesty venum. Ithu oru social issue!", upvotes: 9, isMock: true },
+    { id: 2, nickname: "Kavi - Kongu belt", timestamp: "1d ago", mockText: "Freebies vechu oru generation lazy aaguthu nu solradhu laam over. Ana, accountability venum. Namma Katta Panchayat la sollanum!", upvotes: 21, isMock: true }
+  ];
+  
+  // recording state
+  let mediaRecorder;
+  let audioChunks = [];
+  let recordedBlob = null;
+  let isRecording = false;
+  let recordedAudioURL = null;
 
-        // --- 3. CORE LOGIC ---
-        recordBtn.addEventListener('click', async () => {
-            if (isRecording) return;
-            
-            resultsCard.style.display = 'none';
-            statusText.innerText = 'Loading TFJS Model into memory...';
-            
-            // Lazy load model on first click
-            if (!recognizer && recognizer !== null) {
-                recognizer = await createModel();
-            }
+  // Helper: update featured poll UI
+  function renderFeaturedPoll() {
+    const total = featuredPoll.votes.reduce((a,b)=>a+b,0);
+    const container = document.getElementById('featuredPollOptions');
+    const resultsContainer = document.getElementById('featuredPollResults');
+    if (!container) return;
+    container.innerHTML = '';
+    featuredPoll.options.forEach((opt, idx) => {
+      const percent = total === 0 ? 0 : ((featuredPoll.votes[idx] / total)*100).toFixed(1);
+      const div = document.createElement('div');
+      div.className = 'poll-option';
+      div.innerHTML = `
+        <div style="flex:1"><span style="font-weight:500">${opt}</span></div>
+        <div style="display:flex; align-items:center; gap:8px; min-width:100px;">
+          <span class="vote-percent">${percent}%</span>
+          <i class="fas fa-chevron-right" style="color:#c47d2e;"></i>
+        </div>
+      `;
+      div.addEventListener('click', (e) => {
+        e.stopPropagation();
+        featuredPoll.votes[idx]++;
+        renderFeaturedPoll();
+        renderOtherPolls(); // refresh display but not needed for featured
+        saveToLocal();
+      });
+      container.appendChild(div);
+    });
+    // optional results bar view
+    resultsContainer.innerHTML = '<div style="margin-top:6px; font-size:0.8rem;"><strong>Current Verdict:</strong> Bars reflect crowd voice</div>';
+    featuredPoll.options.forEach((opt, idx) => {
+      const percent = total === 0 ? 0 : ((featuredPoll.votes[idx] / total)*100).toFixed(1);
+      const barDiv = document.createElement('div');
+      barDiv.style.margin = '8px 0';
+      barDiv.innerHTML = `
+        <div style="display:flex; justify-content:space-between; font-size:0.75rem;"><span>${opt}</span><span>${percent}%</span></div>
+        <div class="vote-bar"><div class="vote-fill" style="width: ${percent}%;"></div></div>
+      `;
+      resultsContainer.appendChild(barDiv);
+    });
+  }
 
-            startPipeline();
+  // render other polls (2 panels)
+  function renderOtherPolls() {
+    const container = document.getElementById('otherPollsContainer');
+    if (!container) return;
+    container.innerHTML = '';
+    otherPolls.forEach(poll => {
+      const total = poll.votes.reduce((a,b)=>a+b,0);
+      const pollCard = document.createElement('div');
+      pollCard.style.background = '#fffcf5';
+      pollCard.style.borderRadius = '1rem';
+      pollCard.style.padding = '1rem';
+      pollCard.style.marginBottom = '1.5rem';
+      pollCard.style.border = '1px solid #ffe0b5';
+      pollCard.innerHTML = `
+        <h4 style="font-size:1.2rem; margin-bottom:4px;">${poll.title}</h4>
+        <p style="font-size:0.85rem; margin-bottom:10px;">${poll.question}</p>
+        <div id="poll-${poll.id}-options"></div>
+        <div id="poll-${poll.id}-results" style="margin-top:12px;"></div>
+      `;
+      container.appendChild(pollCard);
+      const optsDiv = pollCard.querySelector(`#poll-${poll.id}-options`);
+      const resultsDiv = pollCard.querySelector(`#poll-${poll.id}-results`);
+      poll.options.forEach((opt, idx) => {
+        const percent = total === 0 ? 0 : ((poll.votes[idx] / total)*100).toFixed(1);
+        const optItem = document.createElement('div');
+        optItem.className = 'poll-option';
+        optItem.style.padding = '0.4rem 0.8rem';
+        optItem.innerHTML = `
+          <div style="flex:1">${opt}</div>
+          <div style="display:flex; gap:6px;"><span class="vote-percent">${percent}%</span><i class="fas fa-vote-yea"></i></div>
+        `;
+        optItem.addEventListener('click', () => {
+          poll.votes[idx]++;
+          renderOtherPolls();
+          saveToLocal();
         });
+        optsDiv.appendChild(optItem);
+      });
+      // results bars
+      poll.options.forEach((opt, idx) => {
+        const percent = total === 0 ? 0 : ((poll.votes[idx] / total)*100).toFixed(1);
+        const barRow = document.createElement('div');
+        barRow.style.margin = '6px 0';
+        barRow.innerHTML = `
+          <div style="display:flex; justify-content:space-between; font-size:0.7rem;"><span>${opt}</span><span>${percent}%</span></div>
+          <div class="vote-bar"><div class="vote-fill" style="width: ${percent}%;"></div></div>
+        `;
+        resultsDiv.appendChild(barRow);
+      });
+    });
+  }
 
-        async function startPipeline() {
-            try {
-                // Request raw microphone access for decibel calculation
-                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-                setupDecibelTracker(stream);
-
-                isRecording = true;
-                recordBtn.classList.add('recording');
-                progressContainer.style.display = 'block';
-                progressBar.style.width = '0%';
-                statusText.innerText = 'Listening... Rev the engine!';
-
-                // Start Progress Bar
-                let elapsed = 0;
-                progressInterval = setInterval(() => {
-                    elapsed += 100;
-                    progressBar.style.width = (elapsed / RECORD_DURATION_MS) * 100 + '%';
-                }, 100);
-
-                // If real TFJS model loaded, start classifying in real time
-                if (recognizer) {
-                    const classLabels = recognizer.wordLabels(); 
-                    recognizer.listen(result => {
-                        // Find highest confidence class during this window
-                        let scores = result.scores;
-                        let highestIndex = scores.indexOf(Math.max(...scores));
-                        
-                        if (scores[highestIndex] > maxConfidence) {
-                            maxConfidence = scores[highestIndex];
-                            detectedClass = classLabels[highestIndex];
-                        }
-                    }, {
-                        includeSpectrogram: false,
-                        probabilityThreshold: 0.75,
-                        invokeCallbackOnNoiseAndUnknown: true,
-                        overlapFactor: 0.50
-                    });
-                }
-
-                // Stop after 5 seconds
-                setTimeout(() => {
-                    stopPipeline(stream);
-                }, RECORD_DURATION_MS);
-
-            } catch (err) {
-                console.error(err);
-                statusText.innerText = "Error: Microphone permission denied.";
-            }
+  // Render voice feed (mixed mocks + real recorded notes)
+  function renderVoiceFeed() {
+    const container = document.getElementById('voiceFeedContainer');
+    if (!container) return;
+    container.innerHTML = '';
+    const allNotes = [...voiceNotes, ...demoNotes.map(d => ({ ...d }))];
+    allNotes.sort((a,b) => (b.upvotes || 0) - (a.upvotes || 0));
+    allNotes.forEach(note => {
+      const card = document.createElement('div');
+      card.className = 'voice-card';
+      const time = note.timestamp || (note.isMock ? 'recent' : 'just now');
+      const up = note.upvotes || 0;
+      card.innerHTML = `
+        <div class="voice-header">
+          <span class="voice-name"><i class="fas fa-user-circle"></i> ${note.nickname}</span>
+          <span class="voice-time"><i class="far fa-clock"></i> ${time}</span>
+        </div>
+        <div class="voice-actions">
+          <button class="voice-play" data-id="${note.id}" data-mock="${note.isMock ? 'true' : 'false'}" data-mocktext="${note.mockText || ''}" data-audioid="${note.audioBlobUrl || ''}" ><i class="fas fa-play"></i> Play Kural</button>
+          <button class="upvote-btn" data-id="${note.id}" data-mock="${note.isMock || false}"><i class="fas fa-thumbs-up"></i> ${up}</button>
+        </div>
+      `;
+      container.appendChild(card);
+    });
+    // Attach play events
+    document.querySelectorAll('.voice-play').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const isMock = btn.dataset.mock === 'true';
+        const mockText = btn.dataset.mocktext;
+        const audioId = btn.dataset.audioid;
+        if (isMock && mockText) {
+          // Use speech synthesis for demo voice notes (humor + voice concept)
+          if (window.speechSynthesis) {
+            window.speechSynthesis.cancel();
+            const utterance = new SpeechSynthesisUtterance(mockText);
+            utterance.lang = 'ta-IN';
+            utterance.rate = 0.9;
+            window.speechSynthesis.speak(utterance);
+          } else {
+            alert("Speech not supported, but concept: Voice note plays!");
+          }
+        } else if (!isMock && audioId && audioId !== '') {
+          // Real recorded audio
+          const audio = new Audio(audioId);
+          audio.play().catch(e => console.warn);
+        } else {
+          alert("🎙️ Voice note demo: This user posted a real recording (or preview unavailable)");
         }
-
-        function setupDecibelTracker(stream) {
-            audioContext = new (window.AudioContext || window.webkitAudioContext)();
-            analyser = audioContext.createAnalyser();
-            microphone = audioContext.createMediaStreamSource(stream);
-            microphone.connect(analyser);
-            analyser.fftSize = 256;
-            
-            const bufferLength = analyser.frequencyBinCount;
-            const dataArray = new Uint8Array(bufferLength);
-            maxVolume = 0;
-
-            function track() {
-                if (!isRecording) return;
-                analyser.getByteFrequencyData(dataArray);
-                let sum = 0;
-                for (let i = 0; i < bufferLength; i++) { sum += dataArray[i]; }
-                let avg = sum / bufferLength;
-                if (avg > maxVolume) maxVolume = avg; // Track peak volume
-                requestAnimationFrame(track);
-            }
-            track();
+      });
+    });
+    // upvote events
+    document.querySelectorAll('.upvote-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const id = parseInt(btn.dataset.id);
+        const isMockNote = btn.dataset.mock === 'true';
+        if (isMockNote) {
+          const mockIdx = demoNotes.findIndex(n => n.id === id);
+          if (mockIdx !== -1) demoNotes[mockIdx].upvotes = (demoNotes[mockIdx].upvotes || 0) + 1;
+        } else {
+          const realIdx = voiceNotes.findIndex(n => n.id === id);
+          if (realIdx !== -1) voiceNotes[realIdx].upvotes = (voiceNotes[realIdx].upvotes || 0) + 1;
         }
+        renderVoiceFeed();
+        saveToLocal();
+      });
+    });
+  }
 
-        function stopPipeline(stream) {
-            isRecording = false;
-            clearInterval(progressInterval);
-            recordBtn.classList.remove('recording');
-            progressContainer.style.display = 'none';
-            statusText.innerText = 'Processing completely on-device...';
+  // MediaRecorder logic
+  async function initRecorder() {
+    if (mediaRecorder && mediaRecorder.state !== 'inactive') {
+      try { mediaRecorder.stop(); } catch(e) {}
+    }
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      mediaRecorder = new MediaRecorder(stream);
+      audioChunks = [];
+      mediaRecorder.ondataavailable = event => {
+        if (event.data.size > 0) audioChunks.push(event.data);
+      };
+      mediaRecorder.onstop = () => {
+        recordedBlob = new Blob(audioChunks, { type: 'audio/webm' });
+        if (recordedAudioURL) URL.revokeObjectURL(recordedAudioURL);
+        recordedAudioURL = URL.createObjectURL(recordedBlob);
+        const audioElem = document.getElementById('recordedAudioPreview');
+        audioElem.src = recordedAudioURL;
+        audioElem.style.display = 'block';
+        document.getElementById('postVoiceBtn').disabled = false;
+        document.getElementById('recordingStatus').innerHTML = '<i class="fas fa-check-circle"></i> Recording ready! Press "Post Voice Note" to add to Panchayat.';
+      };
+      return true;
+    } catch (err) {
+      alert("Microphone permission needed for voice notes! Allow and refresh.");
+      return false;
+    }
+  }
 
-            // Clean up Audio Context
-            stream.getTracks().forEach(track => track.stop());
-            if (audioContext && audioContext.state !== 'closed') {
-                audioContext.close();
-            }
-            if (recognizer) {
-                recognizer.stopListening();
-            }
+  // start recording
+  async function startRecording() {
+    if (!mediaRecorder || mediaRecorder.state === 'inactive') {
+      const ready = await initRecorder();
+      if (!ready) return;
+    }
+    if (mediaRecorder.state === 'recording') return;
+    audioChunks = [];
+    mediaRecorder.start();
+    isRecording = true;
+    document.getElementById('startRecordBtn').disabled = true;
+    document.getElementById('stopRecordBtn').disabled = false;
+    document.getElementById('postVoiceBtn').disabled = true;
+    document.getElementById('recordingStatus').innerHTML = '<i class="fas fa-circle" style="color:red;"></i> Recording... Speak your roast! (max 1 min)';
+    setTimeout(() => {
+      if (mediaRecorder && mediaRecorder.state === 'recording') stopRecording();
+    }, 60000);
+  }
 
-            calculateAndShowResults();
+  function stopRecording() {
+    if (mediaRecorder && mediaRecorder.state === 'recording') {
+      mediaRecorder.stop();
+      isRecording = false;
+      document.getElementById('startRecordBtn').disabled = false;
+      document.getElementById('stopRecordBtn').disabled = true;
+      // clean stream tracks later
+      if (mediaRecorder.stream) {
+        mediaRecorder.stream.getTracks().forEach(track => track.stop());
+      }
+    } else {
+      document.getElementById('stopRecordBtn').disabled = true;
+    }
+  }
+
+  function postVoiceNote() {
+    if (!recordedBlob) {
+      alert("Please record a voice note first!");
+      return;
+    }
+    const nicknameInput = document.getElementById('voiceNickname').value.trim();
+    const nickname = nicknameInput === "" ? "Anonymous_Thamizhan" : nicknameInput;
+    const url = URL.createObjectURL(recordedBlob);
+    const newId = nextVoiceId++;
+    voiceNotes.push({
+      id: newId,
+      nickname: nickname,
+      timestamp: "Just now",
+      audioBlobUrl: url,
+      isMock: false,
+      upvotes: 0,
+    });
+    renderVoiceFeed();
+    // reset recorder UI
+    recordedBlob = null;
+    document.getElementById('recordedAudioPreview').style.display = 'none';
+    document.getElementById('postVoiceBtn').disabled = true;
+    document.getElementById('recordingStatus').innerHTML = '<i class="fas fa-info-circle"></i> Voice note posted! New debate fuel.';
+    if (recordedAudioURL) URL.revokeObjectURL(recordedAudioURL);
+    recordedAudioURL = null;
+    saveToLocal();
+  }
+
+  function saveToLocal() {
+    // save polls and voice notes meta only (audioBlobs not persistent after reload, but we keep)
+    const data = {
+      featuredVotes: featuredPoll.votes,
+      otherPollsVotes: otherPolls.map(p => p.votes),
+      voiceNotesMeta: voiceNotes.map(n => ({ id:n.id, nickname:n.nickname, timestamp:n.timestamp, upvotes:n.upvotes, isMock:n.isMock }))
+    };
+    localStorage.setItem('kattaPanchayatData', JSON.stringify(data));
+  }
+
+  function loadFromLocal() {
+    const saved = localStorage.getItem('kattaPanchayatData');
+    if (saved) {
+      try {
+        const data = JSON.parse(saved);
+        if (data.featuredVotes) featuredPoll.votes = data.featuredVotes;
+        if (data.otherPollsVotes) {
+          data.otherPollsVotes.forEach((votesArr, idx) => {
+            if (otherPolls[idx]) otherPolls[idx].votes = votesArr;
+          });
         }
-
-        function calculateAndShowResults() {
-            // 1. Calculate Base Decibel Score (Mapping peak volume 0-255 to 0-85)
-            let baseScore = Math.min(85, Math.round((maxVolume / 255) * 85 * 1.5)); 
-            if (baseScore < 10) baseScore = Math.floor(Math.random() * 20) + 10; 
-
-            // 2. Handle AI Bike Classification & Character Bonus
-            let characterBonus = 0;
-
-            // If the user hasn't put in their real Teachable Machine URL yet, Mock the AI
-            if (!recognizer) {
-                if (baseScore > 75) { detectedClass = "Royal Enfield Classic 350"; maxConfidence = 0.92; }
-                else if (baseScore > 50) { detectedClass = "KTM Duke 390"; maxConfidence = 0.85; }
-                else { detectedClass = "TVS XL Super"; maxConfidence = 0.78; }
-            }
-
-            // Assign Bonus based on AI Output (The "Character" Bonus from your architecture)
-            if (detectedClass.includes("Royal Enfield")) characterBonus = 15;
-            else if (detectedClass.includes("KTM")) characterBonus = 10;
-            else if (detectedClass.includes("Yamaha")) characterBonus = 8;
-            else characterBonus = 2; // Commuter bikes get low bonus
-
-            // 3. Final Roar Score Calculation
-            let finalScore = Math.min(100, baseScore + characterBonus);
-
-            // 4. Update UI
-            roarScoreEl.innerText = finalScore;
-            bonusTextEl.innerText = `+${characterBonus} Character Bonus (${detectedClass})`;
-            bikeClassEl.innerText = `${detectedClass} (Confidence: ${Math.round(maxConfidence * 100)}%)`;
-            
-            // 5. Fire Trash Talk Engine
-            let category = 'low';
-            if (finalScore > 75) category = 'high';
-            else if (finalScore > 40) category = 'medium';
-
-            const phrases = trashTalkTemplates[category];
-            trashTalkEl.innerText = phrases[Math.floor(Math.random() * phrases.length)];
-
-            resultsCard.style.display = 'block';
-            statusText.innerText = 'Tap mic to test another bike!';
-            
-            // Reset state for next run
-            maxConfidence = 0;
-            detectedClass = "Unknown";
+        if (data.voiceNotesMeta) {
+          voiceNotes = data.voiceNotesMeta.map(v => ({ ...v, audioBlobUrl: null, isMock: false })); // blobs can't persist but keep history structure
+          voiceNotes = voiceNotes.filter(v => v.id);
         }
-    </script>
+        renderFeaturedPoll();
+        renderOtherPolls();
+        renderVoiceFeed();
+      } catch(e) {}
+    }
+  }
+
+  // attach event listeners
+  document.getElementById('startRecordBtn')?.addEventListener('click', startRecording);
+  document.getElementById('stopRecordBtn')?.addEventListener('click', stopRecording);
+  document.getElementById('postVoiceBtn')?.addEventListener('click', postVoiceNote);
+  
+  // initial render
+  renderFeaturedPoll();
+  renderOtherPolls();
+  renderVoiceFeed();
+  loadFromLocal(); // after render
+  // also ensure global demo notes upvotes sync
+  window.addEventListener('beforeunload', () => {
+    if (mediaRecorder && mediaRecorder.stream) mediaRecorder.stream.getTracks().forEach(t => t.stop());
+  });
+</script>
 </body>
 </html>
