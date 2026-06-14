@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <title>Katta Panchayat | கட்டா பஞ்சாயத்து – Add Panchayat • Poll • Conversation</title>
+  <title>Katta Panchayat | கட்டா பஞ்சாயத்து – Add your own debates</title>
   <!-- Google Fonts & Font Awesome -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&family=Baloo+2:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -27,13 +27,11 @@
       padding: 1.5rem 2rem;
     }
 
-    /* header */
     .header {
       text-align: center;
       margin-bottom: 2rem;
       border-bottom: 3px solid #e0b354;
       padding-bottom: 1rem;
-      position: relative;
     }
     .logo {
       font-family: 'Baloo 2', cursive;
@@ -85,7 +83,7 @@
     }
     .btn-primary i, .btn-secondary i { margin-right: 8px; }
 
-    /* featured card */
+    /* featured card – now empty state */
     .featured-card {
       background: #ffffffdd;
       backdrop-filter: blur(2px);
@@ -94,62 +92,11 @@
       padding: 1.8rem;
       margin-bottom: 2.5rem;
       border: 1px solid #ffde9c;
+      text-align: center;
     }
-    .roast-badge {
-      background: #2c2418;
-      color: #ffcd7e;
-      font-size: 0.75rem;
-      width: fit-content;
-      padding: 0.3rem 1rem;
-      border-radius: 30px;
-      font-weight: 600;
-      margin-bottom: 1rem;
-    }
-    h2 {
-      font-family: 'Baloo 2', cursive;
-      font-size: 1.8rem;
-      font-weight: 700;
-    }
-    .debate-title {
-      font-size: 1.6rem;
-      font-weight: 800;
-      margin: 0.5rem 0 0.25rem;
-    }
-    .humor-text {
-      background: #fff1e0;
-      padding: 0.8rem 1.2rem;
-      border-radius: 20px;
-      border-left: 6px solid #e09d32;
+    .empty-featured {
+      color: #a47e52;
       font-style: italic;
-      margin: 1rem 0;
-    }
-
-    /* poll styles */
-    .poll-option {
-      background: #fef2e4;
-      margin: 0.6rem 0;
-      padding: 0.5rem 1rem;
-      border-radius: 60px;
-      cursor: pointer;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      transition: all 0.2s;
-      border: 1px solid #ffddb0;
-    }
-    .vote-bar {
-      background: #e9cfaa;
-      border-radius: 30px;
-      height: 8px;
-      width: 100%;
-      margin-top: 5px;
-      overflow: hidden;
-    }
-    .vote-fill {
-      background: #c47d2e;
-      width: 0%;
-      height: 8px;
-      border-radius: 30px;
     }
 
     /* two column */
@@ -299,43 +246,72 @@
       margin-bottom: 1.2rem;
       border-left: 5px solid #e09d32;
     }
+    .empty-message {
+      text-align: center;
+      color: #b89a6e;
+      padding: 2rem;
+      font-style: italic;
+    }
+    .poll-option {
+      background: #fef2e4;
+      margin: 0.6rem 0;
+      padding: 0.5rem 1rem;
+      border-radius: 60px;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border: 1px solid #ffddb0;
+    }
+    .vote-bar {
+      background: #e9cfaa;
+      border-radius: 30px;
+      height: 8px;
+      width: 100%;
+      margin-top: 5px;
+      overflow: hidden;
+    }
+    .vote-fill {
+      background: #c47d2e;
+      width: 0%;
+      height: 8px;
+      border-radius: 30px;
+    }
   </style>
 </head>
 <body>
 <div class="container">
   <div class="header">
     <div class="logo">🗣️ Katta Panchayat</div>
-    <div class="tagline"><i class="fas fa-microphone-alt"></i> Kural Kodu | Poll Podu | Panchayat Add Pannu</div>
+    <div class="tagline"><i class="fas fa-microphone-alt"></i> Kural Kodu | Poll Podu | Unga Katta Neeye Add Pannunga</div>
     <div class="action-buttons">
       <button id="openModalBtn" class="btn-primary"><i class="fas fa-plus-circle"></i> Add Panchayat</button>
-      <button id="resetDefaultBtn" class="btn-secondary"><i class="fas fa-undo-alt"></i> Reset to Default</button>
+      <button id="resetDefaultBtn" class="btn-secondary"><i class="fas fa-undo-alt"></i> Reset All (Empty)</button>
     </div>
   </div>
 
-  <!-- FEATURED DEBATE (fixed) -->
-  <div class="featured-card">
-    <div class="roast-badge"><i class="fas fa-fire"></i> PERIYA KATTA 🔥 THIS WEEK</div>
-    <div class="debate-title">📢 "Freebies ah? Or Necessary Social Security?"</div>
-    <div class="humor-text"><i class="fas fa-laugh-squint"></i> <span><strong>Roast Logic:</strong> "Mixie, fan, and free rice — aiyo, but is our economy crying in the corner?"</span></div>
-    <div id="featuredPollWidget">
-      <p><strong><i class="fas fa-chart-simple"></i> Ooru Verdict :</strong></p>
-      <div id="featuredPollOptions"></div>
-      <div id="featuredPollResults" class="poll-options" style="margin-top: 10px;"></div>
+  <!-- FEATURED POLL SECTION - now empty / placeholder -->
+  <div class="featured-card" id="featuredCard">
+    <div class="empty-featured">
+      <i class="fas fa-plus-circle" style="font-size: 2rem;"></i>
+      <p style="margin-top: 0.5rem;">No featured panchayat yet. Click <strong>Add Panchayat</strong> and choose "Poll" to create a hot debate topic!</p>
     </div>
   </div>
 
   <div class="two-columns">
-    <!-- LEFT: DYNAMIC PANCHAYATS (Polls + Conversations + Others) -->
+    <!-- LEFT: DYNAMIC PANCHAYATS (Polls + Conversations + Others) - all user added -->
     <div class="panel">
       <h3><i class="fas fa-users"></i> Panchayat Kudumbam</h3>
       <div id="dynamicPanchayatsContainer"></div>
       <div class="roast-day" style="margin-top: 12px;"><i class="fas fa-brain"></i> Nakkal Nugget : "Add your own katta – poll, conversation or vechu kathai!"</div>
     </div>
 
-    <!-- RIGHT: Voice Note Feed & Recorder (unchanged vibe) -->
+    <!-- RIGHT: Voice Note Feed - starts empty -->
     <div class="panel">
       <h3><i class="fas fa-voice"></i> Kural Kottu — Voice Panchayat</h3>
-      <div id="voiceFeedContainer" class="kural-feed"></div>
+      <div id="voiceFeedContainer" class="kural-feed">
+        <div class="empty-message"><i class="fas fa-microphone-slash"></i> No voice notes yet. Record one below!</div>
+      </div>
       <div class="record-area">
         <input type="text" id="voiceNickname" class="nick-input" placeholder="Unga peru (e.g., Muthu, Madurai)" value="Anbu_Chepauk">
         <div class="btn-group">
@@ -348,7 +324,7 @@
       </div>
     </div>
   </div>
-  <footer><i class="fas fa-tree"></i> Katta Panchayat — Add your debate, reset anytime | #KuralKodu</footer>
+  <footer><i class="fas fa-tree"></i> Katta Panchayat — Add your debate, record voice notes, vote, and discuss. Reset clears everything.</footer>
 </div>
 
 <!-- MODAL for adding new Panchayat -->
@@ -380,68 +356,30 @@
 </div>
 
 <script>
-  // -------------------- DEFAULT DATA --------------------
-  // Featured Poll (fixed)
-  let featuredPoll = {
-    question: "Do freebies harm economic growth or empower people?",
-    options: ["Yes, it's a drain", "No, social security is vital", "Depends on implementation"],
-    votes: [12, 25, 18]
-  };
-  const DEFAULT_FEATURED_VOTES = [12, 25, 18];
-
-  // Dynamic Panchayat items (will hold polls, conversations, others)
-  let dynamicItems = [];   // each { id, type, title, description, data, votes?, comments?, etc }
-
-  // Default two polls that come originally (we will treat them as default items)
-  const DEFAULT_POLLS = [
-    { id: "def1", type: "poll", title: "👨‍👩‍👧‍👦 Career Interference", description: "Parents should interfere in career choices?", data: { options: ["They know best", "Let me live my life", "Depends on context"], votes: [30, 44, 22] } },
-    { id: "def2", type: "poll", title: "🚕 Auto Meter Melodrama", description: "Real solution for auto meter refusals?", data: { options: ["Fix meters with GPS", "Ban autos, bring ev buses", "Negotiate like a boss"], votes: [58, 12, 30] } }
-  ];
-
-  // Voice notes (keep demo + user recorded)
-  let voiceNotes = [];
-  let nextVoiceId = 3;
-  const DEMO_VOICE_NOTES = [
-    { id: 0, nickname: "Sowmya - Madurai", timestamp: "2h ago", mockText: "Naama freebies vaangitu irukom, aana adhu namma vaazhkai ku oru safety net maari. But waste panna koodadhu, illaya?", upvotes: 12, isMock: true },
-    { id: 1, nickname: "Dinesh - Tambaram", timestamp: "5h ago", mockText: "Auto drivers deserve minimum fare, but meter podradhu la honesty venum. Ithu oru social issue!", upvotes: 9, isMock: true },
-    { id: 2, nickname: "Kavi - Kongu belt", timestamp: "1d ago", mockText: "Freebies vechu oru generation lazy aaguthu nu solradhu laam over. Ana, accountability venum. Namma Katta Panchayat la sollanum!", upvotes: 21, isMock: true }
-  ];
+  // ---------- NO DEFAULT ENTRIES ----------
+  // All data starts empty.
+  let dynamicItems = [];        // user-added polls, conversations, others
+  let voiceNotes = [];          // user-recorded voice notes (no demo notes)
+  let nextVoiceId = 1;
+  
+  // No featured poll any more; we removed the default featured poll entirely.
+  // The featured card will just show an empty placeholder.
 
   // recording globals
   let mediaRecorder, audioChunks = [], recordedBlob = null, recordedAudioURL = null;
 
-  // Helper: Render featured poll
-  function renderFeaturedPoll() {
-    const total = featuredPoll.votes.reduce((a,b)=>a+b,0);
-    const container = document.getElementById('featuredPollOptions');
-    const resultsContainer = document.getElementById('featuredPollResults');
-    container.innerHTML = '';
-    featuredPoll.options.forEach((opt, idx) => {
-      const percent = total === 0 ? 0 : ((featuredPoll.votes[idx] / total)*100).toFixed(1);
-      const div = document.createElement('div');
-      div.className = 'poll-option';
-      div.innerHTML = `<div style="flex:1"><span>${opt}</span></div><div><span class="vote-percent">${percent}%</span> <i class="fas fa-chevron-right"></i></div>`;
-      div.addEventListener('click', () => { featuredPoll.votes[idx]++; renderFeaturedPoll(); saveToLocal(); });
-      container.appendChild(div);
-    });
-    resultsContainer.innerHTML = '<div style="margin-top:6px;"><strong>Current crowd verdict</strong></div>';
-    featuredPoll.options.forEach((opt, idx) => {
-      const percent = total === 0 ? 0 : ((featuredPoll.votes[idx] / total)*100).toFixed(1);
-      const barDiv = document.createElement('div');
-      barDiv.style.margin = '8px 0';
-      barDiv.innerHTML = `<div style="display:flex; justify-content:space-between;"><span>${opt}</span><span>${percent}%</span></div><div class="vote-bar"><div class="vote-fill" style="width: ${percent}%;"></div></div>`;
-      resultsContainer.appendChild(barDiv);
-    });
-  }
-
-  // Render all dynamic panchayats (default polls + user added)
+  // Helper: render the dynamic panchayats (polls, conversations, others)
   function renderDynamicPanchayats() {
     const container = document.getElementById('dynamicPanchayatsContainer');
     if (!container) return;
     container.innerHTML = '';
-    // merge default polls + dynamicItems
-    const allItems = [...DEFAULT_POLLS, ...dynamicItems];
-    allItems.forEach(item => {
+    
+    if (dynamicItems.length === 0) {
+      container.innerHTML = '<div class="empty-message"><i class="fas fa-comment-slash"></i> No panchayats yet. Click "Add Panchayat" to start a debate!</div>';
+      return;
+    }
+    
+    dynamicItems.forEach(item => {
       if (item.type === 'poll') {
         renderPollCard(container, item);
       } else if (item.type === 'conversation') {
@@ -457,20 +395,20 @@
     const card = document.createElement('div');
     card.className = 'other-item-card';
     card.innerHTML = `
-      <h4 style="font-size:1.2rem; margin-bottom:4px;">${poll.title}</h4>
-      <p style="font-size:0.85rem; margin-bottom:8px;">${poll.description}</p>
+      <h4 style="font-size:1.2rem; margin-bottom:4px;">${escapeHtml(poll.title)}</h4>
+      <p style="font-size:0.85rem; margin-bottom:8px;">${escapeHtml(poll.description)}</p>
       <div id="poll-${poll.id}-options"></div>
       <div id="poll-${poll.id}-results" style="margin-top:12px;"></div>
     `;
     container.appendChild(card);
     const optsDiv = card.querySelector(`#poll-${poll.id}-options`);
     const resDiv = card.querySelector(`#poll-${poll.id}-results`);
+    
     poll.data.options.forEach((opt, idx) => {
       const percent = total === 0 ? 0 : ((poll.data.votes[idx] / total)*100).toFixed(1);
       const optEl = document.createElement('div');
       optEl.className = 'poll-option';
-      optEl.style.padding = '0.4rem 0.8rem';
-      optEl.innerHTML = `<div style="flex:1">${opt}</div><div><span class="vote-percent">${percent}%</span> <i class="fas fa-vote-yea"></i></div>`;
+      optEl.innerHTML = `<div style="flex:1">${escapeHtml(opt)}</div><div><span class="vote-percent">${percent}%</span> <i class="fas fa-vote-yea"></i></div>`;
       optEl.addEventListener('click', () => {
         poll.data.votes[idx]++;
         renderDynamicPanchayats();
@@ -478,11 +416,12 @@
       });
       optsDiv.appendChild(optEl);
     });
+    
     poll.data.options.forEach((opt, idx) => {
       const percent = total === 0 ? 0 : ((poll.data.votes[idx] / total)*100).toFixed(1);
       const bar = document.createElement('div');
       bar.style.margin = '5px 0';
-      bar.innerHTML = `<div style="font-size:0.7rem">${opt}</div><div class="vote-bar"><div class="vote-fill" style="width: ${percent}%;"></div></div>`;
+      bar.innerHTML = `<div style="font-size:0.7rem">${escapeHtml(opt)}</div><div class="vote-bar"><div class="vote-fill" style="width: ${percent}%;"></div></div>`;
       resDiv.appendChild(bar);
     });
   }
@@ -491,8 +430,8 @@
     const card = document.createElement('div');
     card.className = 'other-item-card';
     card.innerHTML = `
-      <h4><i class="fas fa-comments"></i> ${conv.title}</h4>
-      <p>${conv.description}</p>
+      <h4><i class="fas fa-comments"></i> ${escapeHtml(conv.title)}</h4>
+      <p>${escapeHtml(conv.description)}</p>
       <div class="conversation-reply" id="conv-${conv.id}">
         <input type="text" id="replyInput-${conv.id}" placeholder="Unga karuthu..." style="width:70%; padding:5px; border-radius:30px;">
         <button class="small-btn" data-id="${conv.id}" id="replyBtn-${conv.id}">Reply <i class="fas fa-paper-plane"></i></button>
@@ -506,7 +445,7 @@
       repliesDiv.innerHTML = '';
       (conv.data.replies || []).forEach(r => {
         const p = document.createElement('div');
-        p.innerHTML = `<i class="fas fa-user"></i> <strong>${r.name || 'Oorar'}</strong>: ${r.text}`;
+        p.innerHTML = `<i class="fas fa-user"></i> <strong>${escapeHtml(r.name || 'Oorar')}</strong>: ${escapeHtml(r.text)}`;
         p.style.marginBottom = '5px';
         p.style.borderBottom = '1px solid #ffe0b5';
         repliesDiv.appendChild(p);
@@ -519,7 +458,9 @@
       const txt = replyInput.value.trim();
       if (!txt) return;
       if (!conv.data.replies) conv.data.replies = [];
-      conv.data.replies.push({ name: document.getElementById('voiceNickname')?.value || 'Annachi', text: txt });
+      const nameInput = document.getElementById('voiceNickname');
+      const name = nameInput ? nameInput.value.trim() : 'Annachi';
+      conv.data.replies.push({ name: name || 'Oorar', text: txt });
       replyInput.value = '';
       refreshReplies();
       saveToLocal();
@@ -529,63 +470,73 @@
   function renderOthersCard(container, other) {
     const card = document.createElement('div');
     card.className = 'other-item-card';
+    const likes = other.data?.likes || 0;
     card.innerHTML = `
-      <h4><i class="fas fa-lightbulb"></i> ${other.title}</h4>
-      <p>${other.description}</p>
-      <div style="background:#ffefdb; border-radius:20px; padding:6px;">📢 ${other.data?.note || 'No extra note'}</div>
+      <h4><i class="fas fa-lightbulb"></i> ${escapeHtml(other.title)}</h4>
+      <p>${escapeHtml(other.description)}</p>
+      <div style="background:#ffefdb; border-radius:20px; padding:6px;">📢 ${escapeHtml(other.data?.note || 'No extra note')}</div>
       <button class="small-btn like-other" data-id="${other.id}" style="margin-top:8px;"><i class="fas fa-heart"></i> Sambavam +1</button>
-      <span id="otherLikes-${other.id}">❤️ ${other.data?.likes || 0}</span>
+      <span id="otherLikes-${other.id}">❤️ ${likes}</span>
     `;
     container.appendChild(card);
     const likeBtn = card.querySelector('.like-other');
+    const likesSpan = card.querySelector(`#otherLikes-${other.id}`);
     likeBtn.addEventListener('click', () => {
       if (!other.data) other.data = { likes: 0 };
       other.data.likes = (other.data.likes || 0) + 1;
-      document.getElementById(`otherLikes-${other.id}`).innerText = `❤️ ${other.data.likes}`;
+      likesSpan.innerText = `❤️ ${other.data.likes}`;
       saveToLocal();
     });
   }
 
-  // Voice Feed Rendering
+  // Voice Feed Rendering (no default notes)
   function renderVoiceFeed() {
     const container = document.getElementById('voiceFeedContainer');
     if (!container) return;
     container.innerHTML = '';
-    const allNotes = [...voiceNotes, ...DEMO_VOICE_NOTES];
-    allNotes.sort((a,b) => (b.upvotes||0) - (a.upvotes||0));
-    allNotes.forEach(note => {
+    if (voiceNotes.length === 0) {
+      container.innerHTML = '<div class="empty-message"><i class="fas fa-microphone-slash"></i> No voice notes yet. Record one above!</div>';
+      return;
+    }
+    voiceNotes.sort((a,b) => (b.upvotes||0) - (a.upvotes||0));
+    voiceNotes.forEach(note => {
       const card = document.createElement('div');
       card.className = 'voice-card';
       card.innerHTML = `
-        <div class="voice-header"><span class="voice-name"><i class="fas fa-user-circle"></i> ${note.nickname}</span><span>${note.timestamp || 'just now'}</span></div>
-        <button class="voice-play" data-id="${note.id}" data-mock="${note.isMock ? 'true' : 'false'}" data-mocktext="${note.mockText || ''}" data-audioid="${note.audioBlobUrl || ''}"><i class="fas fa-play"></i> Play Kural</button>
-        <div><button class="upvote-btn" data-id="${note.id}" data-mock="${note.isMock || false}"><i class="fas fa-thumbs-up"></i> ${note.upvotes || 0}</button></div>
+        <div class="voice-header"><span class="voice-name"><i class="fas fa-user-circle"></i> ${escapeHtml(note.nickname)}</span><span>${note.timestamp || 'just now'}</span></div>
+        <button class="voice-play" data-audioid="${note.audioBlobUrl || ''}" data-mocktext=""><i class="fas fa-play"></i> Play Kural</button>
+        <div><button class="upvote-btn" data-id="${note.id}"><i class="fas fa-thumbs-up"></i> ${note.upvotes || 0}</button></div>
       `;
       container.appendChild(card);
     });
+    // attach play events
     document.querySelectorAll('.voice-play').forEach(btn => {
       btn.addEventListener('click', () => {
-        const isMock = btn.dataset.mock === 'true';
-        const mockText = btn.dataset.mocktext;
-        if (isMock && mockText) { window.speechSynthesis?.cancel(); const u = new SpeechSynthesisUtterance(mockText); u.lang = 'ta-IN'; window.speechSynthesis.speak(u); }
-        else if (!isMock && btn.dataset.audioid) { new Audio(btn.dataset.audioid).play().catch(e=>{}); }
-        else alert("Voice note demo concept");
+        const audioId = btn.dataset.audioid;
+        if (audioId) {
+          const audio = new Audio(audioId);
+          audio.play().catch(e => console.warn("Playback error"));
+        } else {
+          alert("Voice note recording unavailable or expired.");
+        }
       });
     });
     document.querySelectorAll('.upvote-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         const id = parseInt(btn.dataset.id);
-        const isMock = btn.dataset.mock === 'true';
-        if (isMock) { let d = DEMO_VOICE_NOTES.find(n=>n.id===id); if(d) d.upvotes++; }
-        else { let v = voiceNotes.find(n=>n.id===id); if(v) v.upvotes++; }
-        renderVoiceFeed(); saveToLocal();
+        const note = voiceNotes.find(n => n.id === id);
+        if (note) {
+          note.upvotes = (note.upvotes || 0) + 1;
+          renderVoiceFeed();
+          saveToLocal();
+        }
       });
     });
   }
 
-  // Add New Panchayat Logic
+  // Add new panchayat (poll, conversation, others)
   function addNewPanchayat(title, type, description, extra) {
-    const newId = 'dyn_' + Date.now() + '_' + Math.random().toString(36).substr(2, 4);
+    const newId = 'dyn_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6);
     if (type === 'poll') {
       let opts = extra.pollOptions.split(',').map(s=>s.trim()).filter(s=>s);
       if (opts.length < 2) opts = ["Yes", "No"];
@@ -600,55 +551,161 @@
     saveToLocal();
   }
 
-  // Reset to default: clear dynamicItems, reset featured votes, reset default polls votes to original values, reset voice notes to only demos (clear user recorded)
-  function resetToDefault() {
+  // Reset everything to empty state (no default polls, no voice notes, no featured)
+  function resetToEmpty() {
     dynamicItems = [];
-    featuredPoll.votes = [...DEFAULT_FEATURED_VOTES];
-    DEFAULT_POLLS[0].data.votes = [30, 44, 22];
-    DEFAULT_POLLS[1].data.votes = [58, 12, 30];
     voiceNotes = [];
-    // Clear any recorded previews
+    // also clear any recorded blob preview
     if (recordedAudioURL) URL.revokeObjectURL(recordedAudioURL);
     recordedBlob = null;
-    document.getElementById('recordedAudioPreview').style.display = 'none';
+    const audioPreview = document.getElementById('recordedAudioPreview');
+    if (audioPreview) {
+      audioPreview.src = '';
+      audioPreview.style.display = 'none';
+    }
     document.getElementById('postVoiceBtn').disabled = true;
-    renderFeaturedPoll();
     renderDynamicPanchayats();
     renderVoiceFeed();
     saveToLocal();
-    alert("✨ Katta Panchayat reset to original state! All user polls/conversations removed, votes restored.");
+    // optional: show a small alert to confirm
+    alert("✨ All panchayats and voice notes cleared. Platform is now empty. Add your own debates!");
   }
 
+  // Local storage: save dynamicItems and voiceNotes metadata (blobs not stored persistently, but we keep structure)
   function saveToLocal() {
-    const dataToStore = {
-      featuredVotes: featuredPoll.votes,
-      defaultPollVotes: [DEFAULT_POLLS[0].data.votes, DEFAULT_POLLS[1].data.votes],
+    // For voiceNotes, we cannot store the blob URLs persistently because they are object URLs.
+    // We store metadata only (id, nickname, timestamp, upvotes, and a flag that it's a recorded note)
+    // The actual audio blob is lost on page reload - that's acceptable for demo.
+    const voiceMeta = voiceNotes.map(v => ({
+      id: v.id,
+      nickname: v.nickname,
+      timestamp: v.timestamp,
+      upvotes: v.upvotes,
+      // we do not store audioBlobUrl
+    }));
+    const toStore = {
       dynamicItems: dynamicItems,
-      voiceNotesMeta: voiceNotes.map(v => ({ id:v.id, nickname:v.nickname, upvotes:v.upvotes, timestamp:v.timestamp, isMock:false }))
+      voiceNotesMeta: voiceMeta
     };
-    localStorage.setItem('kattaPanchayatFull', JSON.stringify(dataToStore));
+    localStorage.setItem('kattaPanchayatEmpty', JSON.stringify(toStore));
   }
+
   function loadFromLocal() {
-    const saved = localStorage.getItem('kattaPanchayatFull');
+    const saved = localStorage.getItem('kattaPanchayatEmpty');
     if (saved) {
       try {
         const data = JSON.parse(saved);
-        if (data.featuredVotes) featuredPoll.votes = data.featuredVotes;
-        if (data.defaultPollVotes) { DEFAULT_POLLS[0].data.votes = data.defaultPollVotes[0]; DEFAULT_POLLS[1].data.votes = data.defaultPollVotes[1]; }
         if (data.dynamicItems) dynamicItems = data.dynamicItems;
-        if (data.voiceNotesMeta) voiceNotes = data.voiceNotesMeta.map(v => ({ ...v, audioBlobUrl: null }));
-        renderFeaturedPoll(); renderDynamicPanchayats(); renderVoiceFeed();
-      } catch(e) {}
-    } else { renderDynamicPanchayats(); }
+        if (data.voiceNotesMeta) {
+          voiceNotes = data.voiceNotesMeta.map(v => ({
+            ...v,
+            audioBlobUrl: null  // no persistent audio
+          }));
+          nextVoiceId = voiceNotes.length > 0 ? Math.max(...voiceNotes.map(v=>v.id)) + 1 : 1;
+        } else {
+          voiceNotes = [];
+        }
+        renderDynamicPanchayats();
+        renderVoiceFeed();
+      } catch(e) { console.warn(e); }
+    } else {
+      // no saved data – everything empty by default
+      renderDynamicPanchayats();
+      renderVoiceFeed();
+    }
   }
 
-  // microphone logic
-  async function initRecorder() { try { const stream = await navigator.mediaDevices.getUserMedia({ audio: true }); mediaRecorder = new MediaRecorder(stream); audioChunks = []; mediaRecorder.ondataavailable = e => { if(e.data.size>0) audioChunks.push(e.data); }; mediaRecorder.onstop = () => { recordedBlob = new Blob(audioChunks, { type: 'audio/webm' }); if(recordedAudioURL) URL.revokeObjectURL(recordedAudioURL); recordedAudioURL = URL.createObjectURL(recordedBlob); document.getElementById('recordedAudioPreview').src = recordedAudioURL; document.getElementById('recordedAudioPreview').style.display = 'block'; document.getElementById('postVoiceBtn').disabled = false; }; return true; } catch(e) { alert("Mic permission needed"); return false; } }
-  async function startRecording() { if(!mediaRecorder || mediaRecorder.state==='inactive') await initRecorder(); if(mediaRecorder.state==='recording') return; audioChunks=[]; mediaRecorder.start(); document.getElementById('startRecordBtn').disabled=true; document.getElementById('stopRecordBtn').disabled=false; document.getElementById('postVoiceBtn').disabled=true; setTimeout(()=>{ if(mediaRecorder && mediaRecorder.state==='recording') stopRecording(); },60000); }
-  function stopRecording() { if(mediaRecorder && mediaRecorder.state==='recording') { mediaRecorder.stop(); if(mediaRecorder.stream) mediaRecorder.stream.getTracks().forEach(t=>t.stop()); } document.getElementById('startRecordBtn').disabled=false; document.getElementById('stopRecordBtn').disabled=true; }
-  function postVoiceNote() { if(!recordedBlob) return; const nickname = document.getElementById('voiceNickname').value.trim() || "Oor_Periyar"; const url = URL.createObjectURL(recordedBlob); voiceNotes.push({ id: nextVoiceId++, nickname, timestamp: "Just now", audioBlobUrl: url, upvotes: 0, isMock: false }); renderVoiceFeed(); recordedBlob=null; document.getElementById('recordedAudioPreview').style.display='none'; document.getElementById('postVoiceBtn').disabled=true; saveToLocal(); }
+  // ----- Microphone & Recording Logic -----
+  async function initRecorder() {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      mediaRecorder = new MediaRecorder(stream);
+      audioChunks = [];
+      mediaRecorder.ondataavailable = e => { if(e.data.size > 0) audioChunks.push(e.data); };
+      mediaRecorder.onstop = () => {
+        recordedBlob = new Blob(audioChunks, { type: 'audio/webm' });
+        if (recordedAudioURL) URL.revokeObjectURL(recordedAudioURL);
+        recordedAudioURL = URL.createObjectURL(recordedBlob);
+        const audioElem = document.getElementById('recordedAudioPreview');
+        audioElem.src = recordedAudioURL;
+        audioElem.style.display = 'block';
+        document.getElementById('postVoiceBtn').disabled = false;
+        document.getElementById('recordingStatus').innerHTML = '<i class="fas fa-check-circle"></i> Recording ready! Press "Post Voice Note" to add to Panchayat.';
+      };
+      return true;
+    } catch(err) {
+      alert("Microphone permission needed for voice notes! Allow and refresh.");
+      return false;
+    }
+  }
 
-  // modal handling
+  async function startRecording() {
+    if (!mediaRecorder || mediaRecorder.state === 'inactive') {
+      const ready = await initRecorder();
+      if (!ready) return;
+    }
+    if (mediaRecorder.state === 'recording') return;
+    audioChunks = [];
+    mediaRecorder.start();
+    document.getElementById('startRecordBtn').disabled = true;
+    document.getElementById('stopRecordBtn').disabled = false;
+    document.getElementById('postVoiceBtn').disabled = true;
+    document.getElementById('recordingStatus').innerHTML = '<i class="fas fa-circle" style="color:red;"></i> Recording... Speak your roast! (max 1 min)';
+    setTimeout(() => {
+      if (mediaRecorder && mediaRecorder.state === 'recording') stopRecording();
+    }, 60000);
+  }
+
+  function stopRecording() {
+    if (mediaRecorder && mediaRecorder.state === 'recording') {
+      mediaRecorder.stop();
+      if (mediaRecorder.stream) mediaRecorder.stream.getTracks().forEach(track => track.stop());
+    }
+    document.getElementById('startRecordBtn').disabled = false;
+    document.getElementById('stopRecordBtn').disabled = true;
+  }
+
+  function postVoiceNote() {
+    if (!recordedBlob) {
+      alert("Please record a voice note first!");
+      return;
+    }
+    const nickname = document.getElementById('voiceNickname').value.trim();
+    const finalName = nickname === "" ? "Anonymous_Thamizhan" : nickname;
+    const url = URL.createObjectURL(recordedBlob);
+    const newId = nextVoiceId++;
+    voiceNotes.push({
+      id: newId,
+      nickname: finalName,
+      timestamp: "Just now",
+      audioBlobUrl: url,
+      upvotes: 0,
+    });
+    renderVoiceFeed();
+    // reset recording UI
+    recordedBlob = null;
+    document.getElementById('recordedAudioPreview').style.display = 'none';
+    document.getElementById('postVoiceBtn').disabled = true;
+    document.getElementById('recordingStatus').innerHTML = '<i class="fas fa-info-circle"></i> Voice note posted! Add more debates.';
+    if (recordedAudioURL) URL.revokeObjectURL(recordedAudioURL);
+    recordedAudioURL = null;
+    saveToLocal();
+  }
+
+  // Helper to escape HTML
+  function escapeHtml(str) {
+    if (!str) return '';
+    return str.replace(/[&<>]/g, function(m) {
+      if (m === '&') return '&amp;';
+      if (m === '<') return '&lt;';
+      if (m === '>') return '&gt;';
+      return m;
+    }).replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, function(c) {
+      return c;
+    });
+  }
+
+  // Modal handling
   const modal = document.getElementById('addPanchayatModal');
   document.getElementById('openModalBtn').onclick = () => modal.style.display = 'flex';
   document.getElementById('closeModalBtn').onclick = () => modal.style.display = 'none';
@@ -661,22 +718,28 @@
     let title = document.getElementById('newTitle').value.trim();
     let type = document.getElementById('newType').value;
     let desc = document.getElementById('newDescription').value.trim();
-    if(!title) { alert("Title podunga!"); return; }
+    if (!title) { alert("Title podunga!"); return; }
     let extra = {};
-    if(type === 'poll') { extra.pollOptions = document.getElementById('pollOptionsInput').value || "Aandavan, Illai"; }
-    if(type === 'others') { extra.othersNote = document.getElementById('othersNote').value; }
+    if (type === 'poll') {
+      extra.pollOptions = document.getElementById('pollOptionsInput').value || "Aandavan, Illai";
+    }
+    if (type === 'others') {
+      extra.othersNote = document.getElementById('othersNote').value;
+    }
     addNewPanchayat(title, type, desc || "Oru chinna katta debate", extra);
     modal.style.display = 'none';
-    document.getElementById('newTitle').value = ''; document.getElementById('newDescription').value = ''; document.getElementById('pollOptionsInput').value = ''; document.getElementById('othersNote').value = '';
+    document.getElementById('newTitle').value = '';
+    document.getElementById('newDescription').value = '';
+    document.getElementById('pollOptionsInput').value = '';
+    document.getElementById('othersNote').value = '';
   });
-  document.getElementById('resetDefaultBtn').addEventListener('click', resetToDefault);
+  document.getElementById('resetDefaultBtn').addEventListener('click', resetToEmpty);
   document.getElementById('startRecordBtn').addEventListener('click', startRecording);
   document.getElementById('stopRecordBtn').addEventListener('click', stopRecording);
   document.getElementById('postVoiceBtn').addEventListener('click', postVoiceNote);
 
+  // Initial load – empty state, no default entries
   loadFromLocal();
-  renderFeaturedPoll();
-  renderVoiceFeed();
 </script>
 </body>
 </html>
